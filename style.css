@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root{
+    --background-color: #DC0A2D;
+    --light: #fff;
+    --dark:#000;
+    --hover-color: #E9E9E9;
+    --pokemon-normal: #AAA67F;;
+}
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 62.5%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.hide{
+    display: none;
+}
+
+nav{
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.nav-bar-logo{
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar-logo img{
+    width: 10rem;
+    height: 10rem;;
+    margin: 1rem;
+    object-fit: cover;
+}
+
+.nav-bar-logo p{
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--light);
+}
+
+.nav-bar-search {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    padding: 5px;
+}
+
+.nav-bar-search label {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.nav-bar-search label input{
+    height: 4rem;
+    background: #FFFFFF;
+/* Inner Shadow/2 dp */
+    box-shadow: inset 0px 1px 3px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+}
+
+.nav-bar-search i {
+    position: absolute;
+    left: 10px;
+    font-size: 2rem;
+    color: var(--background-color);
+    cursor: pointer;
+}
+
+.nav-bar-search input[type="text"] {
+    width: 100%;
+    border: none;
+    padding: 5px 30px 5px 30px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.sort{
+    width: 3.2rem;
+    height: 3.2rem;
+    background-color: var(--light);
+    box-shadow: inset 0px 1px 3px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sort:hover{
+    background-color: var(--hover-color);
+    cursor: pointer;
+    
+}
+
+.sort p{
+    font-size: 1.6rem;
+}
+
+#poke-name{
+    font-size: 2rem;
+    text-align: center;
+    margin-top: -4rem;
+
+}
+
+.section-one{
+    background: #FFFFFF;
+/* Drop Shadow/2 dp */
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    max-width: 200px;
+    height: 200px;
+    margin: 2.4rem;
+}
+
+.section-one:hover{
+    cursor: pointer;
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.7);
+}
+
+#pokemon-image:hover{
+    height: 19rem;
+    width: 19rem;
+}
+
+#poke-id{
+    display: flex ;
+    justify-content: flex-end;
+    font-size: 1.5rem;
+    padding: 1.6rem;
+}
+
+#pokemon-image{
+    height: 17rem;
+    width: 17rem;
+    margin-top: -5rem;
+}
+
+.poke-image{
+    display: flex;
+    justify-content: center;
+}
+
+#openCard{
+    background-color: var(--pokemon-normal);
+    height: 88.6rem;
+    overflow: hidden;
+    padding:8px;
+}
+
+#card-stats{
+    height: 55rem;
+    margin-top: 32rem;
+    background-color: var(--light);
+    box-shadow: inset 0px 1px 3px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js"></script>
+    <link rel="shortcut icon" href="images/pokeball.png" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/aa0c350945.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Pokedex</title>
+</head>
+<body onload="showPokemon()">
+    
+    <nav>
+        <div class="nav-bar-logo">
+            <img src="images/pokeball_log.png" alt="" >
+            <p>Pokédex</p>
+        </div>
+
+        <div class="nav-bar-search">
+            <label>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search">
+            </label>
+        </div>
+
+        <div class="sort">
+            <p id="sort-id" onclick="sortAlphabet()" title="Sort By Number">#</p>
+            <p class="hide" id="sort-alphabet" onclick="sortNumber()" title="Sort By Alphabet ">A</p>
+        </div>
+    </nav>
+
+    <div  id="card" >
+
+    </div>
+
+    <div id="openCard" class="hide">
+
+    </div>
+
+
+</body>
+</html>
