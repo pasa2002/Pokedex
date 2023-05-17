@@ -5,7 +5,7 @@
     --light: #fff;
     --dark:#000;
     --hover-color: #E9E9E9;
-    --pokemon-normal: #AAA67F;;
+
 }
 
 *{
@@ -17,8 +17,13 @@
 }
 
 .hide{
-    display: none;
+    display: none !important;
 }
+
+.low-opacity{
+    opacity: 0.3;
+}
+
 
 nav{
     background-color: var(--background-color);
@@ -102,6 +107,7 @@ nav{
 
 .sort p{
     font-size: 1.6rem;
+    margin-bottom: 0 !important;
 }
 
 #poke-name{
@@ -117,7 +123,7 @@ nav{
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     max-width: 200px;
-    height: 200px;
+    height: 18rem;
     margin: 2.4rem;
 }
 
@@ -131,17 +137,20 @@ nav{
     width: 19rem;
 }
 
-#poke-id{
+.section-one p{
     display: flex ;
     justify-content: flex-end;
     font-size: 1.5rem;
     padding: 1.6rem;
 }
 
-#pokemon-image{
-    height: 17rem;
-    width: 17rem;
-    margin-top: -5rem;
+.section-one .poke-image img{
+    height: 10rem;
+    width: 10rem;
+    margin-top: -2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .poke-image{
@@ -149,11 +158,10 @@ nav{
     justify-content: center;
 }
 
-#openCard{
-    background-color: var(--pokemon-normal);
-    height: 88.6rem;
-    overflow: hidden;
-    padding:8px;
+#card{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #card-stats{
@@ -162,4 +170,285 @@ nav{
     background-color: var(--light);
     box-shadow: inset 0px 1px 3px 1px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
+}
+
+.section-one h1{
+    font-size: 1.6rem;
+    text-align: center;
+    padding: 0.4rem;
+}
+
+.btn-more{
+    position:fixed;
+    left: 50%;
+    bottom: 8%;
+}
+
+.btn-more button{
+    height: 3rem;
+    width: 7rem;
+    background-color: transparent;
+    font-size: 1rem;
+    color: var(--background-color);
+    font-weight: 900;
+    border: 0.2rem solid var(--background-color);
+    border-radius: 1rem;
+}
+
+.btn-more button:hover{
+    background-color: var(--background-color);
+    cursor: pointer;
+    color: var(--dark);
+    border-color: var(--dark);
+    height: 3rem;
+    width: 9rem;
+    font-size: 1.3rem;
+    transition: ease-in-out 225ms;
+}
+
+#poke-opened-card{
+    display: flex;
+    justify-content: center;
+    min-height:40vh;
+    margin-left: 30%;
+    margin-right: 30%;
+    background-color: #3698da;
+    border-radius: 1.8rem;
+}
+
+#pokemon-stats{
+    background-color: var(--hover-color);
+    height: 30vh;
+    margin-left: 30%;
+    margin-right: 30%;
+    display: flex;
+    justify-content: center;
+    margin-top:-17rem;
+    border-radius: 1.8rem;
+}
+
+.opened-card-top a{
+    position: absolute;
+    
+}
+
+.poke-popup{
+    max-height:80vh;
+    width: 40rem;
+    border-radius: 20px;
+    border: 1px solid black;
+    border-bottom: none;
+
+}
+
+.poke-popup-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 20px;;
+}
+
+.poke-popup-header h3{
+    font-size: 3rem;
+}
+
+.poke-popup-header a{
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.poke-popup-header a:hover{
+    color: var(--background-color);
+}
+
+.img-type-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+}
+
+.img-type-container img{
+    width: 250px;
+    margin-left: 40px;
+}
+
+.img-type-container button{
+    padding: 10px;;
+    background-color:transparent;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.6rem;
+}
+
+.poke-stats{
+    background-color: var(--light);
+    min-width: 40rem;
+    min-height: 30vh;
+    margin-top: -71px;
+    border-top-left-radius: 20%;
+    border-top-right-radius: 20%;
+    border-bottom: 1px solid black;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+}
+
+#previous i{
+    margin-top: 20px;
+    font-size: 2rem;
+
+}
+
+#next i{
+    margin-top: 20px;
+    font-size: 2rem;
+}
+
+#previous i:hover{
+    color:red;
+    cursor:pointer
+}
+
+#next i:hover{
+    color:red;
+    cursor: pointer;
+}
+.container-topic{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.links {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.links a:hover{
+    background-color: var(--hover-color);
+}
+
+.background-color-popup{
+    height: 35rem;
+    border-radius: 2rem;
+}
+
+.background-color-popup h3{
+    display: flex;
+    font-size: 2rem;
+    justify-content: flex-end;
+    padding-right: 2rem;
+}
+
+.absolute{
+    position: absolute;
+}
+
+.absolute-open{
+    position: absolute;
+}
+
+#poke-moves{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+    max-height:26vh;
+    overflow: auto;
+    gap:1rem;
+}
+
+.move-name{
+    font-size: 1.4rem;
+    background-color: var(--hover-color);
+    padding:0.7rem;
+}
+
+.overflow-hidden{
+    overflow: hidden;
+}
+
+#openCard{
+    position: absolute;
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.base-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+
+.base {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    }
+
+.bar {
+    padding-left: 2rem;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    }
+
+.progress {
+    width: 200px;
+    height: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    }
+
+.progress-bar {
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    background-color: #007bff;
+    font-size:1.3rem ;
+    transition: width 0.3s;
+    }
+
+.bar p {
+    font-size: 1.4rem;
+    font-weight: bold;
+    }
+
+    /* Add animation to the progress bar */
+.progress-bar.progress-bar-striped.progress-bar-animated {
+    animation: progress-animation 1s ease-in-out;
+    }
+
+@keyframes progress-animation {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+    }
+
+
+@media  (max-width: 800px) {
+    .nav-bar-logo img{
+        width: 7rem;
+        height: 7rem;
+    }
+    .nav-bar-logo p{
+        font-size: 3rem;
+    }
+}
+
+@media  (max-width: 600px) {
+    .sort{
+        display: none;
+    }
 }
