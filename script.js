@@ -5,8 +5,8 @@ let allPokemon = [];
 let arrangePokemonId = [];
 let arrangePokemonAlphabet = [];
 
-
 async function fetchPokemonUrl() {
+    displayLoadingMessage();
     for (let i = loadedPokemonCounter; i <= loadedPokemon; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
@@ -14,27 +14,40 @@ async function fetchPokemonUrl() {
         pushPokemonToAllPokemon(currentPokemon);
         pushLetterAndId(currentPokemon.id, currentPokemon.name.charAt(0)); // Add this line to populate the sorting arrays
     }
-
     renderPokemonCards();
     }
 
+function removeLoadMoreBtn(){
+    document.getElementById('load-more').classList.add('hide');
+    document.getElementById('loading-more').classList.remove('hide');
+}
+
+function addLoadMoreBtn(){
+    document.getElementById('load-more').classList.remove('hide');
+    document.getElementById('loading-more').classList.add('hide');
+}
+
 async function loadMorePokemons() {
+    // displayLoadMoreMessage();
+    removeLoadMoreBtn();
     const addMorePokemon = loadedPokemon + 30;
-    
-    for (let i = loadedPokemon + 1; i <= addMorePokemon; i++) {
-        let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
-        let response = await fetch(url);
-        let currentPokemon = await response.json();
-        pushPokemonToAllPokemon(currentPokemon);
-        pushLetterAndId(currentPokemon.id, currentPokemon.name.charAt(0));
+    setTimeout(async function(){
+        for (let i = loadedPokemon + 1; i <= addMorePokemon; i++) {
+            let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+            let response = await fetch(url);
+            let currentPokemon = await response.json();
+            pushPokemonToAllPokemon(currentPokemon);
+            pushLetterAndId(currentPokemon.id, currentPokemon.name.charAt(0));
+        }
+        loadedPokemon += 30;
+        loadedPokemonCounter = loadedPokemon + 1; // Update the value of loadedPokemonCounter
+        renderPokemonCards(); // Render the newly loaded Pokemon cards
+        // hideLoadingMoreMessage();
+        addLoadMoreBtn();
+        document.getElementById('load-more').classList.remove('hide');
+    },8000)
     }
-    
-    loadedPokemon += 30;
-    loadedPokemonCounter = loadedPokemon + 1; // Update the value of loadedPokemonCounter
-    renderPokemonCards(); // Render the newly loaded Pokemon cards
-    }
-    
-    
+
 function fetchPokemon(currentPokemon) {
     let pokemonName = currentPokemon['name'];
     let firstLetterPokemon = pokemonName.charAt(0);
@@ -44,13 +57,11 @@ function fetchPokemon(currentPokemon) {
     pushLetterAndId(pokemonId, firstLetterPokemon);
     addBgColor(typeOne, pokemonId);
     }
-    
 
 function pushPokemonToAllPokemon(currentPokemon){
     allPokemon.push({
         currentPokemon
     })
-
 }
 
 function pushLetterAndId(pokemonId, firstLetterPokemon) {
@@ -58,107 +69,140 @@ function pushLetterAndId(pokemonId, firstLetterPokemon) {
     arrangePokemonAlphabet.push(pokemonId.toString()); // Store IDs as strings for sorting
 }
 
+function checkFirstOrLastPokemon(pokemonId) {
+    const currentIndex = allPokemon.findIndex(p => p.currentPokemon.id === pokemonId);
 
+    const previousButton = document.getElementById('previous');
+    const nextButton = document.getElementById('next');
+
+    if (currentIndex === 0) {
+        previousButton.classList.remove('hover-red');
+    } else {
+        previousButton.classList.add('hover-red');
+    }
+
+    if (currentIndex === allPokemon.length - 1) {
+        nextButton.classList.remove('hover-red');
+    } else {
+        nextButton.classList.add('hover-red');
+    }
+    }
 
 function renderPokemonCards() {
     let pokemonCard = document.getElementById('card');
+
     pokemonCard.innerHTML = '';
 
-    for (let i = 0; i < allPokemon.length; i++) {
-        let pokemonName = allPokemon[i].currentPokemon['name'];
-        let pokemonId = allPokemon[i].currentPokemon['id'];
-        let pokemonImage = allPokemon[i].currentPokemon['sprites']['other']['official-artwork']['front_default'];
-        let typeOne = allPokemon[i].currentPokemon['types'][0]['type']['name'];
-        pokemonCard.innerHTML += landingPagePokemonCards(pokemonName, pokemonId, pokemonImage, typeOne);
-        addBgColor(typeOne, pokemonId); 
+    setTimeout(function(){
+        for (let i = 0; i < allPokemon.length; i++) {
+            let pokemonName = allPokemon[i].currentPokemon['name'];
+            let pokemonId = allPokemon[i].currentPokemon['id'];
+            let pokemonImage = allPokemon[i].currentPokemon['sprites']['other']['official-artwork']['front_default'];
+            let typeOne = allPokemon[i].currentPokemon['types'][0]['type']['name'];
+            pokemonCard.innerHTML += landingPagePokemonCards(pokemonName, pokemonId, pokemonImage, typeOne);
+            addBgColor(typeOne, pokemonId); 
+        }
+        hideLoadingMessage();
+        }, 2000);
     }
-    }
+
+function displayLoadingMessage(){
+    let loadingMessage = document.getElementById('load-animation');
+    loadingMessage.innerHTML = `
+        <h3>
+            Loading Your First 40 Pokemons
+        </h3>
+        <lottie-player class="load-screen" src="https://lottie.host/6038c1dc-68d5-4ee1-b8f6-20befe116598/iZgBjes3nt.json" background="transparent" speed="1" style="width: 800px; height: 800px;" loop autoplay></lottie-player>
+    `;
+}
+
+function hideLoadingMessage(){
+    let hideMessage = document.getElementById('load-animation');
+    hideMessage.innerText = '';
+}
 
 
 function popupState(){
-    document.getElementById('card').classList.add('hide');
+    document.getElementById('card').classList.add('low-opacity');
     document.getElementById('openCard').classList.remove('hide');
     document.querySelector('.btn-more').classList.add('hide');
     document.querySelector('body').classList.add('overflow-hidden');
 } 
 
-function getStats(currentPokemon){
-    console.log(currentPokemon)
+function renderStats(pokemonId){
     document.getElementById('base-stats').classList.remove('hide');
     document.getElementById('poke-moves').classList.add('hide');
-    let stats = currentPokemon['stats'];
-    console.log(stats)
-    document.getElementById('base-stats').innerHTML = '';
-    for (let i = 0; i < stats.length; i++) {
-        const stat = stats[i];
-        document.getElementById('base-stats').innerHTML += `<div class="base">
-        <div class="bar">
-            <p>${stat['stat']['name']}</p>
-            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: ${stat['base_stat']}%">${stat['base_stat']}</div>
-            </div>
-        </div>
-    </div>`;
-    }
-}
+    const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
+    let baseStats = document.getElementById('base-stats');
+    baseStats.innerHTML = '';
+    let chosenPokemonStats = pokemon['currentPokemon']['stats'];
 
-function getMoves(currentPokemon) {
-    document.getElementById('base-stats').classList.add('hide');
-    document.getElementById('poke-moves').classList.remove('hide');
-    let showMoves = document.getElementById('poke-moves');
-    let moves = currentPokemon['moves'];
-    console.log(moves)
-    showMoves.innerHTML = ';'
-    for (let i = 0; i < moves.length; i++) {
-        const move = moves[i]['move'];
-        showMoves.innerHTML += `
-        <div class="move-name">
-            ${move['name']}
+    for (let i = 0; i < chosenPokemonStats.length; i++) {
+        const stat = chosenPokemonStats[i];
+        baseStats.innerHTML += `
+        <div class="base">
+        <div class="bar">
+                <p>${stat['stat']['name']}</p>
+                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="150">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: ${stat['base_stat']}%">${stat['base_stat']}</div>
+                </div>
+            </div>
         </div>
         `
     }
 }
 
-function openPokemonStats(pokemonId) {
-
+function renderMoves(pokemonId){
+    document.getElementById('base-stats').classList.add('hide');
+    document.getElementById('poke-moves').classList.remove('hide');
     const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
+    let showMoves = document.getElementById('poke-moves');
+    showMoves.innerHTML = '';
+    let chosenPokemonMoves = pokemon['currentPokemon']['moves'];
+
+    for (let i = 0; i < chosenPokemonMoves.length; i++) {
+        const moves = chosenPokemonMoves[i];
+        showMoves.innerHTML += `
+                <div class="move-name">
+                    ${moves['move']['name']}
+                </div>
+        `
+    }
+}
+
+function openPokemonStats(pokemonId) {
+    const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
+    
     const { name, sprites, types } = pokemon.currentPokemon;
     const pokemonName = name;
-    console.log(pokemonName)
     const pokemonImage = sprites.other['official-artwork']['front_default'];
     const typeOne = types[0].type.name;
 
     const popupHtml = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, pokemonId);
     document.getElementById('openCard').innerHTML = popupHtml;
-
+    loadedPokemonCounter = allPokemon.findIndex(p => p.currentPokemon.id === pokemonId) + 1;
+    checkFirstOrLastPokemon(pokemonId)
     popupState();
-    getStats(currentPokemon);
-    getMoves(currentPokemon);
+    renderStats(pokemonId);
+    renderMoves(pokemonId);
 }
-
-
 
 function sortAlphabet(searchQuery) {
     document.getElementById('sort-id').classList.add('hide');
     document.getElementById('sort-alphabet').classList.remove('hide');
-
-    // Check if searchQuery is defined and a string
+    // Check if searchQuery is defined and a string 
     if (searchQuery && typeof searchQuery === 'string') {
         const filteredPokemon = allPokemon.filter(pokemon => pokemon.currentPokemon.name.toLowerCase().startsWith(searchQuery.toLowerCase()));       
         // Sort the filteredPokemon array alphabetically based on the Pokémon names
         filteredPokemon.sort((a, b) => a.currentPokemon.name.localeCompare(b.currentPokemon.name));
-
         // Get the sorted Pokémon IDs to rearrange the cards
         const arrangedArray = filteredPokemon.map(pokemon => pokemon.currentPokemon.id);
-
         rearrangePokemonCards(arrangedArray);
     } else {
         // If searchQuery is not defined or not a string, sort allPokemon array alphabetically
         allPokemon.sort((a, b) => a.currentPokemon.name.localeCompare(b.currentPokemon.name));
-
         // Get the sorted Pokémon IDs to rearrange the cards
         const arrangedArray = allPokemon.map(pokemon => pokemon.currentPokemon.id);
-
         rearrangePokemonCards(arrangedArray);
     }
 }
@@ -182,11 +226,9 @@ function sortNumber(searchQuery) {
     }
 }
 
-
 function rearrangePokemonCards(arrangedArray) {
     const pokemonCard = document.getElementById('card');
     pokemonCard.innerHTML = '';
-
     // Loop through the arranged array and render the Pokémon cards
     for (let i = 0; i < arrangedArray.length; i++) {
     const pokemonId = arrangedArray[i];
@@ -196,7 +238,6 @@ function rearrangePokemonCards(arrangedArray) {
         const typeOne = types[0].type.name;
         const pokemonImage = sprites.other['official-artwork']['front_default'];
         const pokemonCardHtml = landingPagePokemonCards(name, pokemonId, pokemonImage, typeOne);
-
         pokemonCard.innerHTML += pokemonCardHtml;
         addBgColor(typeOne, pokemonId); // Update this line
     }
@@ -204,8 +245,7 @@ function rearrangePokemonCards(arrangedArray) {
 }
 
 function closePopup(){
-    document.getElementById('card').classList.remove('hide');
-    document.getElementById('card').classList.remove('hide');
+    document.getElementById('card').classList.remove('low-opacity');
     document.getElementById('openCard').classList.add('hide');
     document.querySelector('.btn-more').classList.remove('hide');
     document.querySelector('body').classList.remove('overflow-hidden');
@@ -267,13 +307,16 @@ function prevPokemon(pokemonId) {
         pokemonId--;
         const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
         const { name, sprites, types } = pokemon.currentPokemon;
+        let chosenPokemonStats = pokemon['currentPokemon']['stats'];
+        let chosenPokemonMoves = pokemon['currentPokemon']['moves'];
         const pokemonName = name;
         const pokemonImage = sprites.other['official-artwork']['front_default'];
         const typeOne = types[0].type.name;
 
-        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, pokemonId);
-        getStats(currentPokemon);
-        getMoves(currentPokemon);
+        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, pokemonId, chosenPokemonStats,chosenPokemonMoves);
+        renderStats(pokemonId);
+        renderMoves(pokemonId);
+        checkFirstOrLastPokemon(pokemonId)
     }
 
 }
@@ -282,16 +325,20 @@ function nextPokemon(pokemonId) {
     const nextId = pokemonId + 1;
     if (nextId <= loadedPokemon) {
         const pokemon = allPokemon.find(p => p.currentPokemon.id === nextId);
+        let chosenPokemonStats = pokemon['currentPokemon']['stats'];
+        let chosenPokemonMoves = pokemon['currentPokemon']['moves'];
         const { name, sprites, types } = pokemon.currentPokemon;
         const pokemonName = name;
         const pokemonImage = sprites.other['official-artwork']['front_default'];
         const typeOne = types[0].type.name;
 
-        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, nextId);
-        getStats(currentPokemon);
-        getMoves(currentPokemon);
+        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, nextId,chosenPokemonStats,chosenPokemonMoves);
+        renderStats(pokemonId);
+        renderMoves(pokemonId);
+        checkFirstOrLastPokemon(pokemonId)
     }
 }
+
 function searchPokemon(query) {
     const filteredPokemon = allPokemon.filter(pokemon => {
         const pokemonName = pokemon.currentPokemon.name.toLowerCase();
@@ -299,7 +346,6 @@ function searchPokemon(query) {
     });
     renderFilteredPokemonCards(filteredPokemon);
 }
-
 
 function renderFilteredPokemonCards(filteredPokemon) {
     const pokemonCard = document.getElementById('card');

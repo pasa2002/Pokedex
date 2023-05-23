@@ -1,12 +1,12 @@
-function landingPagePokemonCards(pokemonName, pokemonId, pokemonImage, currentPokemon) {
+function landingPagePokemonCards(pokemonName, pokemonId, pokemonImage) {
     return `
         <div class="section-one section-one${pokemonId}" onclick="openPokemonStats(${pokemonId})">
-        <p id="poke-id-${pokemonId}">#${pokemonId}</p>
-        <div class="poke-image">
-            <img src="images/pokeball_bg.png" class="absolute">
-            <img id="pokemon-image-${pokemonId}" src="${pokemonImage}" alt="${pokemonName}">
-        </div>
-        <h1 id="poke-name-${pokemonId}">${pokemonName}</h1>
+            <p id="poke-id-${pokemonId}">#${pokemonId}</p>
+            <div class="poke-image">
+                <img src="images/pokeball_bg.png" class="absolute">
+                <img id="pokemon-image-${pokemonId}" src="${pokemonImage}" alt="${pokemonName}">
+            </div>
+            <h1 id="poke-name-${pokemonId}">${pokemonName}</h1>
         </div>`;
     }
 
@@ -34,8 +34,8 @@ function openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, pokemonId) {
                         <i class="fa-solid fa-backward"></i>
                     </div>
                     <div class="links">
-                        <a onclick="getStats(${pokemonId})">Base Stats</a>
-                        <a onclick="getMoves(${pokemonId})">Moves</a>
+                        <a onclick="renderStats(${pokemonId})">Base Stats</a>
+                        <a onclick="renderMoves(${pokemonId})">Moves</a>
                     </div>
                     <div id="next" onclick="nextPokemon(${pokemonId})">
                         <i class="fa-solid fa-forward"></i>

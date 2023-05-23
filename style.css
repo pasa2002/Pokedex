@@ -16,6 +16,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 .hide{
     display: none !important;
 }
@@ -114,7 +118,22 @@ nav{
     font-size: 2rem;
     text-align: center;
     margin-top: -4rem;
+}
 
+#load-animation,#load-more-animation{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+}
+
+#load-animation h3,#load-more-animation h3{
+    font-weight: bold;
+    font-size: 5rem;
+    position: absolute;
+    color: var(--background-color);
+    margin-top: 20rem;
+    text-align: center;
 }
 
 .section-one{
@@ -135,6 +154,10 @@ nav{
 #pokemon-image:hover{
     height: 19rem;
     width: 19rem;
+}
+
+.hover-red:hover{
+    color:var(--background-color)
 }
 
 .section-one p{
@@ -178,20 +201,26 @@ nav{
     padding: 0.4rem;
 }
 
-.btn-more{
-    position:fixed;
-    left: 50%;
-    bottom: 8%;
+#loading-more{
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    color: var(--light);
+    font-weight: 900;
+    border-radius: 1rem;
+    cursor:unset;
 }
+
+
 
 .btn-more button{
     height: 3rem;
     width: 7rem;
     background-color: transparent;
     font-size: 1rem;
-    color: var(--background-color);
+    color: var(--light);
     font-weight: 900;
-    border: 0.2rem solid var(--background-color);
+    border: 0.2rem solid var(--light);
     border-radius: 1rem;
 }
 
@@ -239,6 +268,10 @@ nav{
     border: 1px solid black;
     border-bottom: none;
 
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+
 }
 
 .poke-popup-header{
@@ -269,8 +302,9 @@ nav{
 }
 
 .img-type-container img{
-    width: 250px;
+    width: 240px;
     margin-left: 40px;
+    z-index:999;
 }
 
 .img-type-container button{
@@ -305,12 +339,10 @@ nav{
 }
 
 #previous i:hover{
-    color:red;
     cursor:pointer
 }
 
 #next i:hover{
-    color:red;
     cursor: pointer;
 }
 .container-topic{
@@ -336,6 +368,7 @@ nav{
 .background-color-popup{
     height: 35rem;
     border-radius: 2rem;
+    width: 100%;
 }
 
 .background-color-popup h3{
@@ -358,7 +391,7 @@ nav{
     flex-wrap: wrap;
     justify-content: center;
     padding: 1rem;
-    max-height:26vh;
+    height:30vh;
     overflow: auto;
     gap:1rem;
 }
@@ -374,12 +407,13 @@ nav{
 }
 
 #openCard{
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 85vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 }
 
 .base-stats {
@@ -391,7 +425,6 @@ nav{
 .base {
     display: flex;
     flex-direction: column;
-    gap: 5px;
     }
 
 .bar {
@@ -427,12 +460,25 @@ nav{
     animation: progress-animation 1s ease-in-out;
     }
 
+#load-more-animation{
+    font-weight: bold;
+    position: absolute;
+    color: var(--background-color);
+    margin-top: 20rem;
+    text-align: center;
+
+}
+
+.loadmore-screen{
+    width: 15rem !important;
+    height: 15rem !important;
+    margin-top: -30rem;
+    margin-left:-4rem; 
+}
+
 @keyframes progress-animation {
     0% {
         width: 0;
-    }
-    100% {
-        width: 100%;
     }
     }
 
@@ -450,5 +496,39 @@ nav{
 @media  (max-width: 600px) {
     .sort{
         display: none;
+    }
+    .btn-more{
+        display:none
+    }
+}
+
+@media  (max-width: 500px) {
+    .nav-bar-logo p{
+        display: none;
+    }
+    nav{
+        gap:10%;
+    }
+    .load-screen{
+        width: 60rem !important;
+    }
+}
+
+
+@media  (max-width: 425px) {
+    .poke-stats{
+        min-width: 34rem;
+    }
+    .poke-popup{
+        width: 34rem;
+    }
+}
+
+@media  (max-width: 375px) {
+    .bar{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap:0;
     }
 }
