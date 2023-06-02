@@ -469,6 +469,12 @@ nav{
 
 }
 
+@keyframes section-one{
+    0%{
+        transition: ease-in 225ms;
+    }
+}
+
 .loadmore-screen{
     width: 15rem !important;
     height: 15rem !important;

@@ -53,6 +53,8 @@ function fetchPokemon(currentPokemon) {
     let firstLetterPokemon = pokemonName.charAt(0);
     let pokemonId = currentPokemon['id'];
     let typeOne = currentPokemon['types'][0]['type']['name'];
+    let typeTwo = currentPokemon['types'][1]['type']['name'];
+    console.log(typeTwo);
     
     pushLetterAndId(pokemonId, firstLetterPokemon);
     addBgColor(typeOne, pokemonId);
