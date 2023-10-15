@@ -1,5 +1,5 @@
 let currentPokemon = [];
-let loadedPokemon = 41;
+let loadedPokemon = 10;
 let loadedPokemonCounter = 1;
 let allPokemon = [];
 let arrangePokemonId = [];
@@ -62,8 +62,6 @@ function fetchPokemon(currentPokemon) {
     let firstLetterPokemon = pokemonName.charAt(0);
     let pokemonId = currentPokemon['id'];
     let typeOne = currentPokemon['types'][0]['type']['name'];
-
-    // let  gifPoke = currentPokemon[]
     
     pushLetterAndId(pokemonId, firstLetterPokemon);
     addBgColor(typeOne, pokemonId);
@@ -146,41 +144,42 @@ function popupState(){
     document.querySelector('body').classList.add('overflow-hidden');
 } 
 
-function renderStats(pokemonId){
+function renderStats(pokemonId, typeOne) {
     document.getElementById('base-stats').classList.remove('hide');
     document.getElementById('poke-moves').classList.add('hide');
     const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
     let baseStats = document.getElementById('base-stats');
+
     baseStats.innerHTML = '';
     let chosenPokemonStats = pokemon['currentPokemon']['stats'];
-
+    const bgColor = getColorForType(typeOne);
     for (let i = 0; i < chosenPokemonStats.length; i++) {
         const stat = chosenPokemonStats[i];
         baseStats.innerHTML += `
         <div class="base">
         <div class="bar">
-                <p>${stat['stat']['name']}</p>
-                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="150">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: ${stat['base_stat']}%">${stat['base_stat']}</div>
+                <p  style="color: ${bgColor}">${stat['stat']['name']}</p>
+                <div  class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="150">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: ${stat['base_stat']}%; background-color: ${bgColor}; ">${stat['base_stat']}</div>
                 </div>
             </div>
         </div>
-        `
+        `;
     }
 }
-
 function renderMoves(pokemonId,typeOne){
     document.getElementById('base-stats').classList.add('hide');
     document.getElementById('poke-moves').classList.remove('hide');
+
     const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
     let showMoves = document.getElementById('poke-moves');
     showMoves.innerHTML = '';
     let chosenPokemonMoves = pokemon['currentPokemon']['moves'];
-
+    const bgColor = getColorForType(typeOne);
     for (let i = 0; i < chosenPokemonMoves.length; i++) {
         const moves = chosenPokemonMoves[i];
         showMoves.innerHTML += `
-                <div class="move-name">
+                <div class="move-name" style="background-color: ${bgColor}">
                     ${moves['move']['name']}
                 </div>
         `
@@ -188,19 +187,21 @@ function renderMoves(pokemonId,typeOne){
 }
 
 
+
 function openPokemonStats(pokemonId) {
     const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
-    
-    const { name, sprites, types } = pokemon.currentPokemon;
+    const { name, sprites, types , weight ,height} = pokemon.currentPokemon;
     const pokemonName = name;
     const pokemonImage = sprites.other['official-artwork']['front_default'];
     const typeOne = types[0].type.name;
-    const popupHtml = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne,pokemonId);
+    const pokeWeight = weight;
+    const pokeHeight = height;
+    const popupHtml = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne,pokemonId, pokeHeight,pokeWeight);
     document.getElementById('openCard').innerHTML = popupHtml;
     loadedPokemonCounter = allPokemon.findIndex(p => p.currentPokemon.id === pokemonId) + 1;
     checkFirstOrLastPokemon(pokemonId)
     popupState();
-    renderStats(pokemonId);
+    renderStats(pokemonId,typeOne);
     renderMoves(pokemonId,typeOne);
 }
 
@@ -323,15 +324,18 @@ function prevPokemon(pokemonId) {
     if (pokemonId > 1) {
         pokemonId--;
         const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
-        const { name, sprites, types } = pokemon.currentPokemon;
-        let chosenPokemonStats = pokemon['currentPokemon']['stats'];
+        const { name, sprites, types ,weight, height} = pokemon.currentPokemon;
         let chosenPokemonMoves = pokemon['currentPokemon']['moves'];
+        console.log(pokemon)
+        let pokeWeight =  weight;
+        let pokeHeight = height;
+        console.log(pokeHeight,pokeWeight)
         const pokemonName = name;
         const pokemonImage = sprites.other['official-artwork']['front_default'];
         const typeOne = types[0].type.name;
 
-        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, pokemonId, chosenPokemonStats,chosenPokemonMoves);
-        renderStats(pokemonId);
+        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, pokemonId,pokeWeight,pokeHeight,chosenPokemonMoves);
+        renderStats(pokemonId,typeOne);
         renderMoves(pokemonId,typeOne);
         checkFirstOrLastPokemon(pokemonId)
     }
@@ -342,15 +346,17 @@ function nextPokemon(pokemonId) {
     const nextId = pokemonId + 1;
     if (nextId <= loadedPokemon) {
         const pokemon = allPokemon.find(p => p.currentPokemon.id === nextId);
-        let chosenPokemonStats = pokemon['currentPokemon']['stats'];
         let chosenPokemonMoves = pokemon['currentPokemon']['moves'];
-        const { name, sprites, types } = pokemon.currentPokemon;
+        const { name, sprites, types ,weight,height} = pokemon.currentPokemon;
         const pokemonName = name;
         const pokemonImage = sprites.other['official-artwork']['front_default'];
+        let pokeWeight = weight;
+        let pokeHeight = height;
+        console.log(pokeHeight,pokeWeight)
         const typeOne = types[0].type.name;
 
-        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, nextId,chosenPokemonStats,chosenPokemonMoves);
-        renderStats(pokemonId);
+        document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, nextId,pokeWeight,pokeHeight,chosenPokemonMoves);
+        renderStats(pokemonId,typeOne);
         renderMoves(pokemonId,typeOne);
         checkFirstOrLastPokemon(pokemonId)
     }
@@ -393,5 +399,13 @@ searchIcon.addEventListener('click', function() {
     searchPokemon(query);
 });
 
+function highlightStats(){
+    document.getElementById('stats-button').classList.remove('low-opacity');
+    document.getElementById('moves-button').classList.add('low-opacity');
+}
 
+function highlightMoves(){
+    document.getElementById('stats-button').classList.add('low-opacity');
+    document.getElementById('moves-button').classList.remove('low-opacity');
+}
 

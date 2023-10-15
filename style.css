@@ -409,9 +409,10 @@ nav {
     flex-wrap: wrap;
     justify-content: center;
     padding: 1rem;
-    height:30vh;
+    height:20vh;
     overflow: auto;
     gap:1rem;
+    max-width: 36rem;
 }
 
 .move-name{
@@ -439,18 +440,78 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 2rem;
     }
 
+.toggle-stat-move{
+    gap: 3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+@keyframes cardRotateAnimation {
+    0% {
+        transform: rotateY(180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: rotateY(90deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+.poke-open-card {
+    animation: cardRotateAnimation 1s cubic-bezier(0.80, -0.70, 0.57, 1.2);
+}
+
+#poke-moves {
+    max-height: 200px; 
+    overflow-y: auto; 
+}
+
+#poke-moves::-webkit-scrollbar {
+    width: 10px; 
+}
+
+#poke-moves::-webkit-scrollbar-thumb {
+    background-color: #afb2b4; 
+    border-radius: 5px; 
+}
+
+#poke-moves::-webkit-scrollbar-track {
+    background-color: #f1f1f1; 
+}
+
+
+.toggle-stat-move button, .toggle-stat-move button{
+    border: none;
+    font-size: 2rem;
+
+    background-color: transparent;
+
+}
 .base {
     display: flex;
     flex-direction: column;
     }
 
 .bar {
+    display: flex;
     padding-left: 2rem;
     align-items: center;
-    gap: 10px;
     margin-bottom: 1rem;
+    justify-content: space-between;
+
+    }
+
+    .bar p{
+        margin-bottom: 0 !important;
     }
 
 .progress {
@@ -469,15 +530,19 @@ nav {
     transition: width 0.3s;
     }
 
+
 .bar p {
     font-size: 1.4rem;
     font-weight: bold;
     }
 
-    /* Add animation to the progress bar */
 .progress-bar.progress-bar-striped.progress-bar-animated {
     animation: progress-animation 1s ease-in-out;
     }
+
+.move-name{
+    color: white;
+}
 
 #load-more-animation{
     font-weight: bold;
@@ -563,42 +628,27 @@ nav {
 }
 
 
-/* Style for the custom scrollbar */
-#poke-moves::-webkit-scrollbar {
-    width: 5px;
+.stat-move-container{
+    display: flex;
+    align-items: center;
+    gap: 3rem;
 }
-
-#poke-moves::-webkit-scrollbar-thumb {
-    background: linear-gradient(to right, 
-        #8be9fd, /* Water */
-        #50fa7b, /* Grass */
-        #ffb86c, /* Fire */
-        #ff79c6, /* Fairy */
-        #bd93f9, /* Psychic */
-        #ff5555, /* Fighting */
-        #f1fa8c, /* Electric */
-        #6272a4, /* Dark */
-        #ff79c6, /* Fairy */
-        #ff5555, /* Fighting */
-        #f1fa8c, /* Electric */
-        #6272a4  /* Dark */
-    );
-    border-radius: 6px;
-}
-
-#poke-moves::-webkit-scrollbar-track {
-    background-color: #E9E9E9; /* Dark background color */
-    border-radius: 6px;
-}
-
 
 .poke-open-card{
     background-color: #74CB48;
-    height:132%;
-    width:100vw;
     position: relative;
     z-index: 0;
+    border-radius: 1rem;
 }
+
+.base-stats h2,.move-container h2{
+    text-align: center;
+}
+
+.move-container{
+    margin-top: 2rem;
+}
+
 
 
 .header-open-card{
@@ -606,6 +656,7 @@ nav {
     padding: 2rem 2rem 2.4rem 2rem;
     align-items: center;
     gap: 0.8rem;
+    font-size: 2rem;
     justify-content: space-between;
 }
 
@@ -642,9 +693,11 @@ nav {
     padding: 2rem 2rem 2rem 2rem;
     margin-left: 0.4rem;
     margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.25) inset;
     border-radius: 0.8rem;
-    margin-top: -6%;
+    margin-top: 0;
+    border: none;
 }
 
 .arrows{
@@ -656,11 +709,13 @@ nav {
     position: absolute;
     left: 2rem;
     top: 30%;
+    cursor: pointer;
 }
 .right{
     position: absolute;
     right: 2rem;
     top: 30%;
+    cursor: pointer;
 }
 
 .poke-type{
@@ -673,6 +728,7 @@ nav {
     padding: 2px 8px;
     border-radius: 1rem;
     border: none;
+    font-size: 1.2rem;
     color: white;
 }
 
@@ -696,7 +752,18 @@ nav {
 }
 
 
-
 .weight-subcontainer,.height-subcontainer{
     display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.weight-subcontainer p,.height-subcontainer p{
+    font-size: 1.3rem;
+    margin-bottom: 0 !important;
+}
+
+.weight span,.height span{
+    font-size: 1.3rem;
 }
