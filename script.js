@@ -1,5 +1,5 @@
 let currentPokemon = [];
-let loadedPokemon = 10;
+let loadedPokemon = 30;
 let loadedPokemonCounter = 1;
 let allPokemon = [];
 let arrangePokemonId = [];
@@ -16,7 +16,6 @@ async function fetchPokemonUrl() {
 
     const responses = await Promise.all(promises);
     const pokemonData = await Promise.all(responses.map(response => response.json()));
-    console.log(pokemonData)
     pokemonData.forEach(currentPokemon => {
         pushPokemonToAllPokemon(currentPokemon);
         pushLetterAndId(currentPokemon.id, currentPokemon.name.charAt(0));
@@ -26,19 +25,23 @@ async function fetchPokemonUrl() {
 
 
 
-function removeLoadMoreBtn(){
-    document.getElementById('load-more').classList.add('hide');
-    document.getElementById('loading-more').classList.remove('hide');
+function toggleLoadMoreBtn() {
+    const loadMoreBtn = document.getElementById('load-more');
+    const loadingMoreBtn = document.getElementById('loading-more');
+
+    if (loadMoreBtn.classList.contains('hide')) {
+        loadMoreBtn.classList.remove('hide');
+        loadingMoreBtn.classList.add('hide');
+    } else {
+        loadMoreBtn.classList.add('hide');
+        loadingMoreBtn.classList.remove('hide');
+    }
 }
 
-function addLoadMoreBtn(){
-    document.getElementById('load-more').classList.remove('hide');
-    document.getElementById('loading-more').classList.add('hide');
-}
 
 async function loadMorePokemons() {
     // displayLoadMoreMessage();
-    removeLoadMoreBtn();
+    toggleLoadMoreBtn();
     const addMorePokemon = loadedPokemon + 30;
     setTimeout(async function(){
         for (let i = loadedPokemon + 1; i <= addMorePokemon; i++) {
@@ -51,8 +54,7 @@ async function loadMorePokemons() {
         loadedPokemon += 30;
         loadedPokemonCounter = loadedPokemon + 1; // Update the value of loadedPokemonCounter
         renderPokemonCards(); // Render the newly loaded Pokemon cards
-        // hideLoadingMoreMessage();
-        addLoadMoreBtn();
+        toggleLoadMoreBtn();
         document.getElementById('load-more').classList.remove('hide');
     },2000)
     }
@@ -89,19 +91,15 @@ function checkFirstOrLastPokemon(pokemonId) {
     const nextButton = document.getElementById('next');
 
     if (currentIndex === 0) {
-        previousButton.classList.remove('hover-red');
-        previousButton.classList.add('remove-pointer');
+        previousButton.classList.add('hide');
     } else {
-        previousButton.classList.add('hover-red');
-        previousButton.classList.remove('remove-pointer');
+        previousButton.classList.remove('hide');
     }
 
     if (currentIndex === allPokemon.length - 1) {
-        nextButton.classList.remove('hover-red');
-        nextButton.classList.add('remove-pointer');
+        nextButton.classList.add('hide');
     } else {
-        nextButton.classList.add('hover-red');
-        nextButton.classList.remove('remove-pointer');
+        nextButton.classList.remove('hide');
     }
     }
 
@@ -123,13 +121,10 @@ function renderPokemonCards() {
 
 function displayLoadingMessage(){
     let loadingMessage = document.getElementById('load-animation');
-    loadingMessage.innerHTML = `
-        <h3>
-            Loading Your First 40 Pokemons
-        </h3>
-        <lottie-player class="load-screen" src="https://lottie.host/6038c1dc-68d5-4ee1-b8f6-20befe116598/iZgBjes3nt.json" background="transparent" speed="1" style="width: 800px; height: 800px;" loop autoplay></lottie-player>
-    `;
+    loadingMessage.innerHTML = loadingMessageHTML()
 }
+
+
 
 function hideLoadingMessage(){
     let hideMessage = document.getElementById('load-animation');
@@ -155,16 +150,7 @@ function renderStats(pokemonId, typeOne) {
     const bgColor = getColorForType(typeOne);
     for (let i = 0; i < chosenPokemonStats.length; i++) {
         const stat = chosenPokemonStats[i];
-        baseStats.innerHTML += `
-        <div class="base">
-        <div class="bar">
-                <p  style="color: ${bgColor}">${stat['stat']['name']}</p>
-                <div  class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="150">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: ${stat['base_stat']}%; background-color: ${bgColor}; ">${stat['base_stat']}</div>
-                </div>
-            </div>
-        </div>
-        `;
+        baseStats.innerHTML += renderStatsHTML(bgColor, stat);
     }
 }
 function renderMoves(pokemonId,typeOne){
@@ -326,10 +312,8 @@ function prevPokemon(pokemonId) {
         const pokemon = allPokemon.find(p => p.currentPokemon.id === pokemonId);
         const { name, sprites, types ,weight, height} = pokemon.currentPokemon;
         let chosenPokemonMoves = pokemon['currentPokemon']['moves'];
-        console.log(pokemon)
         let pokeWeight =  weight;
         let pokeHeight = height;
-        console.log(pokeHeight,pokeWeight)
         const pokemonName = name;
         const pokemonImage = sprites.other['official-artwork']['front_default'];
         const typeOne = types[0].type.name;
@@ -352,7 +336,6 @@ function nextPokemon(pokemonId) {
         const pokemonImage = sprites.other['official-artwork']['front_default'];
         let pokeWeight = weight;
         let pokeHeight = height;
-        console.log(pokeHeight,pokeWeight)
         const typeOne = types[0].type.name;
 
         document.getElementById('openCard').innerHTML = openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, nextId,pokeWeight,pokeHeight,chosenPokemonMoves);
@@ -399,13 +382,15 @@ searchIcon.addEventListener('click', function() {
     searchPokemon(query);
 });
 
-function highlightStats(){
-    document.getElementById('stats-button').classList.remove('low-opacity');
-    document.getElementById('moves-button').classList.add('low-opacity');
-}
+function toggleHighlight(button) {
+    const statsButton = document.getElementById('stats-button');
+    const movesButton = document.getElementById('moves-button');
 
-function highlightMoves(){
-    document.getElementById('stats-button').classList.add('low-opacity');
-    document.getElementById('moves-button').classList.remove('low-opacity');
+    if (button === 'stats') {
+        statsButton.classList.remove('low-opacity');
+        movesButton.classList.add('low-opacity');
+    } else if (button === 'moves') {
+        statsButton.classList.add('low-opacity');
+        movesButton.classList.remove('low-opacity');
+    }
 }
-

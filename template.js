@@ -10,6 +10,15 @@ function landingPagePokemonCards(pokemonName, pokemonId, pokemonImage) {
         </div>`;
     }
 
+function loadingMessageHTML(){
+    return`
+    <h3>
+    Loading Your First 40 Pokemons
+    </h3>
+    <lottie-player class="load-screen" src="https://lottie.host/6038c1dc-68d5-4ee1-b8f6-20befe116598/iZgBjes3nt.json" background="transparent" speed="1" style="width: 800px; height: 800px;" loop autoplay></lottie-player>
+    `
+    }
+
     function openPokemonHtmlTemp(pokemonName, pokemonImage, typeOne, pokemonId, pokeWeight, pokeHeight, chosenPokemonMoves) {
         const bgColor = getColorForType(typeOne);
         return `
@@ -27,11 +36,11 @@ function landingPagePokemonCards(pokemonName, pokemonId, pokemonImage) {
             <div class="poke-image-open-card">
                 <img src="${pokemonImage}" alt="${pokemonName}" width="350px;">
             </div>
-            <div id="previous" onclick="prevPokemon(${pokemonId})">
-                <img src="./images/left.png" class="left" alt="">
+            <div  onclick="prevPokemon(${pokemonId})">
+                <img src="./images/left.png" class="left" id="previous" alt="">
             </div>
-            <div id="next" onclick="nextPokemon(${pokemonId})">
-                <img src="./images/right.svg" class="right">
+            <div  onclick="nextPokemon(${pokemonId})">
+                <img id="next" src="./images/right.svg" class="right">
             </div>
             <div class="poke-stats">
                 <div class="poke-type">
@@ -60,8 +69,8 @@ function landingPagePokemonCards(pokemonName, pokemonId, pokemonImage) {
                 <div class="stat-move-container">
 
                     <div class="toggle-stat-move">
-                    <button id="stats-button" class="low-opacity" style="color: ${bgColor}" onclick="renderStats(${pokemonId}, '${typeOne}');highlightStats()">Stats</button>
-                    <button id="moves-button" style="color: ${bgColor}" onclick="renderMoves(${pokemonId}, '${typeOne}' ); highlightMoves()">Moves</button>
+                    <button id="stats-button" class="low-opacity" style="color: ${bgColor}" onclick="renderStats(${pokemonId}, '${typeOne}');toggleHighlight('stats');">Stats</button>
+                    <button id="moves-button" style="color: ${bgColor}" onclick="renderMoves(${pokemonId}, '${typeOne}' ); toggleHighlight('moves');">Moves</button>
                     </div>
                     <div class="base-stats">
                         
@@ -76,3 +85,16 @@ function landingPagePokemonCards(pokemonName, pokemonId, pokemonImage) {
         </div>
         `;
     }
+
+function renderStatsHTML(bgColor,stat){
+    return `
+    <div class="base">
+    <div class="bar">
+            <p  style="color: ${bgColor}">${stat['stat']['name']}</p>
+            <div  class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="150">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: ${stat['base_stat']}%; background-color: ${bgColor}; ">${stat['base_stat']}</div>
+            </div>
+        </div>
+    </div>
+    `
+}

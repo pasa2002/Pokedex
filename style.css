@@ -86,6 +86,10 @@ nav {
     cursor: pointer;
 }
 
+.back-btn img{
+    cursor: pointer;
+}
+
 .nav-bar-search input[type="text"] {
     width: 100%;
     border: none;
